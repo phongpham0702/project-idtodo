@@ -1,0 +1,24 @@
+.sidebar{
+    background-color: rgb(255, 255, 255);
+    width: 260px;
+    display:flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.sidebar .sidebar-header{
+    flex: 1;
+    background-color: antiquewhite;
+}
+
+.sidebar .sidebar-body{
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.sidebar .sidebar-footer{
+    flex: 1;
+    background-color:blueviolet;
+}
