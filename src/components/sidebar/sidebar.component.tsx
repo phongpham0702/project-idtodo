@@ -13,7 +13,7 @@ const SideBar = () => {
                 Sidebar Header
             </div>
             <div className="sidebar-body">
-                <SideBarTab tabName="cac" tabIcon={IconMap.taskIcon} />
+                <SideBarTab tabName="All Tasks" tabIcon={IconMap.taskIcon} />
                 <SideBarTab tabName="Today's Tasks" tabIcon={IconMap.todayTaskIcon} />
                 <SideBarTab tabName="Important Tasks" tabIcon={IconMap.importantTaskIcon} />
                 <SideBarTab tabName="Completed Tasks" tabIcon={IconMap.completeTaskIcon} />
