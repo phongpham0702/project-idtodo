@@ -3,7 +3,8 @@
   min-height: 100vh;
   margin: 0 auto;
   display: flex;
-  
+  gap: 1rem;
+  justify-content: space-between;
   background-color: rgb(235, 235, 235);
 }
 /* .logo {

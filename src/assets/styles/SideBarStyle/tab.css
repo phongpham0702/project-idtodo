@@ -1,21 +1,16 @@
 .sidebar-tab{
     background-color: transparent;
     display: flex;
-    flex: 1;
-    border-bottom:  0.5px solid rgb(200, 200, 200);
-    border-top:  0.5px solid rgb(200, 200, 200);
     gap: 0.625rem;
     padding: 0 0.5rem;
-}
-
-.sidebar-tab:hover{
-    background-color: #1a77ff;
-    scale: 1.1;
-    cursor: pointer;
+    height: 100%;
 }
 
 .sidebar-tab span{
     align-content: center;
+    font-family: "Kanit";
+    font-size: 1.25em;
+    font-weight: 400;
 }
 
 

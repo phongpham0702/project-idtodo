@@ -1,0 +1,16 @@
+.main-panel{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: calc(100% - var(--side-bar-width-expand) - 20px);
+    padding: 0px 10px;
+}
+
+.task-container{
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    flex: 6;
+    margin-top: 1rem;
+    border-radius: 10px;
+}
