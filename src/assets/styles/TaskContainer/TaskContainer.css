@@ -1,0 +1,92 @@
+.task-container{
+    --main-color: #1a77ff;
+    
+    flex: 1;
+    padding: 20px 20px;
+
+}
+
+.task-container .icon{
+    width: 24px;
+    height: 24px;   
+    margin-right: 10px; 
+    padding: 5px;
+    box-sizing: content-box;
+}
+
+.total-task-count{
+    padding: 20px 0px;
+    font-size: 32px;
+}
+
+.task-controls{
+    display: flex;
+    align-items: center;
+    padding: 10px 0px;
+}
+
+
+.task-display-controls{
+    flex: 1;
+    display: flex;
+    justify-items: flex-start;
+    align-items: center;
+}
+
+
+.task-display-option{
+    height: auto;
+}
+
+
+.task-sorting-options{
+    flex: 1;
+    display: flex;
+    justify-items: flex-end;
+    align-items: center;
+    padding: 0 10px;
+}
+
+
+
+.task-list{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 10px;
+    column-gap: 10px;
+}
+
+.task-list-row{
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 10px;
+    column-gap: 10px;
+}
+
+.add-task-box{
+    border-radius: 10px;
+    border: 2px dashed rgb(161, 161, 161);
+    color: rgb(161, 161, 161);
+    font-size: 20px;    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.task-list .add-task-box{
+    min-height: 254px;
+}
+
+.task-list-row .add-task-box{
+    min-height: 110px;
+}
+
+.add-task-box:hover{
+    border-color:     var(--main-color);
+    color:     var(--main-color);
+}
+
+.add-task-box:active{
+    background-color:     var(--main-color);
+    border-color:     var(--main-color);
+    color: white;
+}
