@@ -84,3 +84,15 @@
 .add-task-box:active{
     background-color:     var(--main-color-blur);
 }
+
+@media only screen and (max-width: 768px) {
+    .task-list{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .task-list{
+        grid-template-columns: 1fr;
+    }
+}
