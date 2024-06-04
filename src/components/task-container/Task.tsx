@@ -91,7 +91,10 @@ export default function Task(
                 open={isModalOpen} 
                 style={{ top: '50%' }}
                 onOk={handleOk} 
-                onCancel={handleCancel}></Modal>
+                onCancel={handleCancel}
+                okButtonProps={{ style: { backgroundColor: 'red' } }}
+            >    
+            </Modal>
           
 
         </div>
