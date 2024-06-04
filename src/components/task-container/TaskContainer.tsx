@@ -8,27 +8,27 @@ import TaskDisplayCardBlueIcon from "../../assets/icons/task-display-card-blue.s
 import { useState } from "react";
 
 export default function TaskContainer() {
-    let [display, setDisplay] = useState("card");
-    let [tasks, setTasks] = useState(Tasks);
+    const [display, setDisplay] = useState("card");
+    const [tasks, setTasks] = useState(Tasks);
 
     const handleDisplayChange = (value: string) => {
         setDisplay(value);
     }
 
     const handleDeleteTask = (index: number) => {
-        let newTasks = [...tasks];
+        const newTasks = [...tasks];
         newTasks.splice(index, 1);
         setTasks(newTasks);
     }
 
     const handleChangeImportant = (index: number) => {
-        let newTasks = [...tasks];
+        const newTasks = [...tasks];
         newTasks[index].isImportant = !newTasks[index].isImportant;
         setTasks(newTasks);
     }
 
     const handChangeProgress = (index: number) => {
-        let newTasks = [...tasks];
+        const newTasks = [...tasks];
         newTasks[index].isComplete = !newTasks[index].isComplete;
         setTasks(newTasks);
     }

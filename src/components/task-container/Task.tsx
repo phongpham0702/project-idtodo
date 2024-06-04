@@ -43,15 +43,15 @@ export default function Task(
 
             <div className="task-others-info">
                 {isComplete ? 
-                    <div className="complete-tag" onClick={changeProgress}>
+                    <div className="complete-tag cursor-pointer" onClick={changeProgress}>
                         completed
                     </div> :
-                    <div className="uncomplete-tag" onClick={changeProgress}>
+                    <div className="uncomplete-tag cursor-pointer" onClick={changeProgress}>
                         uncompleted
                     </div>
                 }
 
-                <div className="other-action">
+                <div className="other-action flex flex-nowrap">
                     <img src={isImportant ? ImportantTaskIcon : UnimportantTaskIcon} 
                         alt=""
                         className="icon" 
@@ -70,4 +70,4 @@ export default function Task(
             </div>
         </div>
     );
-};
+}
