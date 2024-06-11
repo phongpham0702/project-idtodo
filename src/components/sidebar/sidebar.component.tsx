@@ -39,7 +39,7 @@ const SideBar = ({tabId, handleTabClick}:propsType) => {
                     ))
                 }
             </div>
-            
+
             <div className="sidebar-footer">
                 {
                     collapsed ?
@@ -60,7 +60,7 @@ const SideBar = ({tabId, handleTabClick}:propsType) => {
             </div>
 
         </div>
-        
+
     )
 
 }

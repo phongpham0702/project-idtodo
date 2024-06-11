@@ -2,25 +2,35 @@ import { useEffect, useState } from "react";
 import { green, red } from '@ant-design/colors';
 import { Flex, Progress } from 'antd';
 import "../../assets/styles/TaskContainer/TaskContainer.css";
-import { Tasks } from "../../constant/Tasks";
 import Task from "./Task";
 import TaskDisplayRowIcon from "../../assets/icons/task-display-row.svg";
 import TaskDisplayRowBlueIcon from "../../assets/icons/task-display-row-blue.svg";
 import TaskDisplayCardIcon from "../../assets/icons/task-display-card.svg";
 import TaskDisplayCardBlueIcon from "../../assets/icons/task-display-card-blue.svg";
 
-export default function TaskContainer({tabId}: {tabId: number}) {
+import { useState } from "react";
+import {TaskType} from "../../interfaces/TaskType";
+
+type TaskContainerProps = {
+    tabId: number,
+    tasks: TaskType[];
+    setTasks: React.Dispatch<React.SetStateAction<TaskType[]>>;
+    SetModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+
+const TaskContainer: React.FC<TaskContainerProps> = ({tabId, tasks, setTasks, SetModalOpen }) => {
     const [display, setDisplay] = useState("card");
     const [tasks, setTasks] = useState(Tasks);
     const [completePercent, setCompletePercent] = useState(0);
     const [uncompletePercent, setUncompletePercent] = useState(0);
-
     const handleDisplayChange = (value: string) => {
         setDisplay(value);
     }
 
     const handleDeleteTask = (index: number) => {
         const newTasks = [...tasks];
+      
         newTasks.splice(index, 1);
         setTasks(newTasks);
     }
@@ -36,6 +46,7 @@ export default function TaskContainer({tabId}: {tabId: number}) {
         newTasks[index].isComplete = !newTasks[index].isComplete;
         setTasks(newTasks);
     }
+
 
     
 
@@ -75,34 +86,37 @@ export default function TaskContainer({tabId}: {tabId: number}) {
         
     }, [tabId, tasks]);  // Thêm Tasks vào dependency array nếu cần
 
+
     return (
         <div className="task-container">
 
-            <p className="total-task-count">All task ({Tasks.length} tasks)</p>
+
+            <p className="total-task-count">All task ({tasks.length} tasks)</p>
             
             <Flex gap="small" vertical>
                 <Progress percent={completePercent} steps={10} strokeColor={green[6]}  />
                 <Progress percent={uncompletePercent} steps={10} strokeColor={red[5]} status={ (uncompletePercent === 100) ? "exception" : "normal"} />
             </Flex>
 
+
             <div className="task-controls">
                 <div className="task-display-controls">
                     <div className="task-display-option">
-                        <img 
-                            src={display !== "card" ? TaskDisplayRowBlueIcon : TaskDisplayRowIcon} 
-                            alt="" 
-                            className="icon" 
-                            onClick={() => handleDisplayChange("row")} 
-                        />            
+                        <img
+                            src={display !== "card" ? TaskDisplayRowBlueIcon : TaskDisplayRowIcon}
+                            alt=""
+                            className="icon"
+                            onClick={() => handleDisplayChange("row")}
+                        />
                     </div>
 
                     <div className="task-display-option">
-                        <img 
-                            src={display === "card" ? TaskDisplayCardBlueIcon : TaskDisplayCardIcon} 
-                            alt="" 
-                            className="icon" 
-                            onClick={() => handleDisplayChange("card")} 
-                        />            
+                        <img
+                            src={display === "card" ? TaskDisplayCardBlueIcon : TaskDisplayCardIcon}
+                            alt=""
+                            className="icon"
+                            onClick={() => handleDisplayChange("card")}
+                        />
                     </div>
                 </div>
 
@@ -110,10 +124,11 @@ export default function TaskContainer({tabId}: {tabId: number}) {
                     {/* Thêm các phần tử và logic cho controls sắp xếp nếu cần */}
                 </div>
             </div>
-        
-            <div className={display !== "row" ?  "task-list" : "task-list-row"}>
+
+
+            <div className={display !== "row" ? "task-list" : "task-list-row"}>
                 {tasks.map((task, index) => (
-                    <Task 
+                    <Task
                         key={index}
                         title={task.title}
                         description={task.description}
@@ -127,10 +142,14 @@ export default function TaskContainer({tabId}: {tabId: number}) {
                     />
                 ))}
 
-                <div className="add-task-box">
+
+                <div className="add-task-box" onClick={()=> SetModalOpen(true)}>
+
                     Add new task
                 </div>
             </div>
         </div>
     );
 }
+
+export default TaskContainer;
