@@ -10,7 +10,7 @@ export const Tasks = [
     {
         title: "Task 2",
         description: "Description of task 2",
-        date: "04/09/2021",
+        date: "11/06/2024",
         isImportant: false,
         isComplete: false,
     },

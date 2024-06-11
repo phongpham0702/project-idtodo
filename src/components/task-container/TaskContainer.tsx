@@ -5,9 +5,9 @@ import TaskDisplayRowIcon from "../../assets/icons/task-display-row.svg";
 import TaskDisplayRowBlueIcon from "../../assets/icons/task-display-row-blue.svg";
 import TaskDisplayCardIcon from "../../assets/icons/task-display-card.svg";
 import TaskDisplayCardBlueIcon from "../../assets/icons/task-display-card-blue.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function TaskContainer() {
+export default function TaskContainer({tabId}: {tabId: number}) {
     const [display, setDisplay] = useState("card");
     const [tasks, setTasks] = useState(Tasks);
 
@@ -32,6 +32,34 @@ export default function TaskContainer() {
         newTasks[index].isComplete = !newTasks[index].isComplete;
         setTasks(newTasks);
     }
+
+    
+
+    useEffect(() => {
+        switch(tabId) {
+            case 1:
+                setTasks(Tasks);
+                break;
+            case 2:
+                const today = new Date();
+                const day = String(today.getDate()).padStart(2, '0');
+                const month = String(today.getMonth() + 1).padStart(2, '0'); // getMonth() returns 0-based month
+                const year = today.getFullYear();
+                const formattedDate = `${day}/${month}/${year}`;
+                setTasks(Tasks.filter(task => task.date == formattedDate));
+                break;
+            case 3:
+                setTasks(Tasks.filter(task => task.isImportant));
+                break;
+            case 4:
+                setTasks(Tasks.filter(task => task.isComplete));
+                break;
+            case 5:
+                setTasks(Tasks.filter(task => !task.isComplete));
+        }
+
+        
+    }, [tabId]);
 
     return (
         <div className="task-container">
@@ -65,7 +93,7 @@ export default function TaskContainer() {
             </div>
         
             <div className={display !== "row" ?  "task-list" : "task-list-row"}>
-               {tasks.map((task, index) => (
+                {tasks.map((task, index) => (
                     <Task 
                         key={index}
                         title={task.title}
@@ -78,11 +106,11 @@ export default function TaskContainer() {
                         changeImportant={() => handleChangeImportant(index)}
                         changeProgress={() => handChangeProgress(index)}
                     />
-               ))}
+                ))}
 
-               <div className="add-task-box">
+                <div className="add-task-box">
                     Add new task
-               </div>
+                </div>
             </div>
         </div>
     );

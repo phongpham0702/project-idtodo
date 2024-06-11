@@ -1,6 +1,7 @@
 :root{
     --main-color: #1a77ff;
     --main-color-blur: #13d4ff;
+    --task-description-title-color: #000000;
     --delete-icon-bg-color: #ff1a1a;
     --delete-icon-bg-color-blur: #ff8d8d;
 }
@@ -39,14 +40,14 @@
 .isCard .task-desciption{
     font-size: 1rem;
     margin: 0;
-    color: var(--main-color-blur);
+    color: var(--task-description-title-color);
     height: 100px;
 }
 
 .isRow .task-desciption{
     font-size: 1rem;
     margin: 0;
-    color: var(--main-color-blur);
+    color: var(--task-description-title-color);
     height: 100px;
     display: flex;
     align-items: center;
