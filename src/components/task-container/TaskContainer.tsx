@@ -82,7 +82,7 @@ export default function TaskContainer({tabId}: {tabId: number}) {
             
             <Flex gap="small" vertical>
                 <Progress percent={completePercent} steps={10} strokeColor={green[6]}  />
-                <Progress percent={uncompletePercent} steps={10} strokeColor={red[5]}  />
+                <Progress percent={uncompletePercent} steps={10} strokeColor={red[5]} status={ (uncompletePercent === 100) ? "exception" : "normal"} />
             </Flex>
 
             <div className="task-controls">
