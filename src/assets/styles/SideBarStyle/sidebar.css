@@ -1,24 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Noto+Sans:wght@400;500&display=swap');
+
 .sidebar{
     background-color: rgb(255, 255, 255);
-    width: 260px;
+    width: var(--side-bar-width-expand);
     display:flex;
     flex-direction: column;
     flex-wrap: nowrap;
+    transition: 100ms ease-out;
+}
+
+.sidebar.minimize{
+    width: var(--side-bar-width-minimize);
 }
 
 .sidebar .sidebar-header{
     flex: 1;
-    background-color: antiquewhite;
+    background-color: transparent;
+    align-content: center;
+    position: relative;
+}
+
+.sidebar .sidebar-header .sidebar-toggle{
+    position: absolute;
+    height: 100%;
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(50%);
+    background-color: white;
+    font-size: 1.5rem;
+    align-content: center;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-left: 1px solid rgb(200, 200, 200);
+}
+
+.sidebar .sidebar-header .sidebar-toggle:hover{
+    background-color: rgb(225, 225, 225);
+    cursor: pointer;
+}
+
+.sidebar .sidebar-header .header-content{
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 8px;
+    gap: 0.625rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar .sidebar-header .header-content img{
+    max-width: 48px;
+}
+
+.sidebar .sidebar-header .header-content span{
+    font-size: 1.5em;
+    font-weight: bold;
+    font-family: "Kanit", sans-serif;
+    letter-spacing: 2px;
+}
+
+.sidebar.sidebar.minimize .sidebar-header .header-content span{
+    display: none;
 }
 
 .sidebar .sidebar-body{
-    flex: 3;
+    flex: 5;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
 }
 
+.sidebar .sidebar-body .tab-container{
+    border-bottom:  0.5px solid rgb(200, 200, 200);
+    border-top:  0.5px solid rgb(200, 200, 200);
+    padding: 0.75rem 0;
+}
+
+.sidebar .sidebar-body .tab-container:hover{
+    background-color: #1a77ff;
+    cursor: pointer;
+}
+
+.sidebar .sidebar-body .tab-container.active{
+    background-color: #1a77ff;
+}
+
 .sidebar .sidebar-footer{
     flex: 1;
-    background-color:blueviolet;
+    background-color:transparent;
+    align-content: center;
+    text-align: center;
+    letter-spacing: 3.5px;
+}
+
+@media only screen and (max-width: 768px) {
+    .sidebar{
+        height: 100% !important; 
+        position: absolute;
+        box-shadow: -6px 3px 20px 5px black;
+    }
 }
