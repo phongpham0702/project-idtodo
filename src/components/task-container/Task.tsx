@@ -46,6 +46,7 @@ export default function Task(
 
     return (
         <div>
+            
             <div className={display !== "row" ?  "task isCard" : "task isRow"}>
                 
                 <div className="task-title">{title}</div>

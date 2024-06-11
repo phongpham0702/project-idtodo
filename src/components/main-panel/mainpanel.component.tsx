@@ -12,7 +12,7 @@ const MainPanel = ({tabId}: propsType) => {
         <div className="main-panel">
             <Header/>
             {/* <TaskPanel contentId={tabId}/> */}
-            <TaskContainer/>
+            <TaskContainer tabId={tabId}/>
         </div>
     )
 

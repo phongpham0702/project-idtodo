@@ -19,6 +19,14 @@
     font-size: 32px;
 }
 
+.ant-progress-steps-item{
+    flex: 1 !important;
+}
+
+.ant-progress{
+    width: 80% !important;
+}
+
 .task-controls{
     display: flex;
     align-items: center;
