@@ -1,6 +1,7 @@
 import "../../assets/styles/HeaderStyle/header.css"
 import { Input } from 'antd';
 import type { SearchProps } from 'antd/es/input/Search';
+import { TaskType } from "../../interfaces/TaskType";
 import AddTask from "../todo-add/AddTask";
 
 
@@ -8,14 +9,6 @@ const { Search } = Input;
 
 const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
 
-
-type TaskType = {
-    title: string;
-    description: string;
-    date: string;
-    isImportant: boolean;
-    isComplete: boolean;
-};
 type HeaderProps = {
     tasks: TaskType[];
     setTasks: React.Dispatch<React.SetStateAction<TaskType[]>>;

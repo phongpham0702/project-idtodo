@@ -5,15 +5,7 @@ import { FormEventHandler, useState } from 'react';
 import Modal_addTask from './Modal_addTask';
 import InputCheckbox from './InputCheckbox';
 import CompleteCheckbox from './CompletedCheckbox';
-
-
-type TaskType = {
-    title: string;
-    description: string;
-    date: string;
-    isImportant: boolean;
-    isComplete: boolean;
-};
+import { TaskType } from '../../interfaces/TaskType';
 type AddTaskProps = {
     tasks: TaskType[];
     setTasks: React.Dispatch<React.SetStateAction<TaskType[]>>;
@@ -33,7 +25,9 @@ const AddTask: React.FC<AddTaskProps> = ({ tasks, setTasks, modalOpen, setModalO
         e.preventDefault();
         const newTasks = [...tasks];
         
+        const newId = Math.random().toString(36).substring(2, 9);
         newTasks.push({
+            id: newId,  
             title: newTaskValue,
             description: taskDescription,
             date: formatDate(taskDate),
@@ -41,6 +35,7 @@ const AddTask: React.FC<AddTaskProps> = ({ tasks, setTasks, modalOpen, setModalO
             isComplete: isCompleted,
         }
         );
+
         setTasks(newTasks);
         setNewTaskValue('');
         setTaskDescription('');
@@ -52,8 +47,8 @@ const AddTask: React.FC<AddTaskProps> = ({ tasks, setTasks, modalOpen, setModalO
 
 
     function formatDate(date: string) {
-        const dd = date.split('-')[1];
-        const mm = date.split('-')[2];
+        const dd = date.split('-')[2];
+        const mm = date.split('-')[1];
         const yyyy = date.split('-')[0];
 
         const formattedDate = dd + '/' + mm + '/' + yyyy;
