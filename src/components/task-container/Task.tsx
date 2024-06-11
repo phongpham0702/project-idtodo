@@ -4,7 +4,7 @@ import ImportantTaskIcon from "../../assets/icons/important-star.svg";
 import UnimportantTaskIcon from "../../assets/icons/unimportant-task.svg";
 import DeleteIcon from "../../assets/icons/trash-bin.svg";
 import EditIcon from "../../assets/icons/edit-task.svg";
-import { useState } from "react";
+import { useState} from "react";
 import { Modal } from 'antd';
 export default function Task(
     {
@@ -18,7 +18,7 @@ export default function Task(
         changeImportant,
         changeProgress
     }: 
-    {
+    {   
         title: string,
         description: string,
         date: string,

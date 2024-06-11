@@ -1,22 +1,27 @@
 import "../../assets/styles/TaskContainer/TaskContainer.css";
-import { Tasks } from "../../constant/Tasks";
 import Task from "./Task";
 import TaskDisplayRowIcon from "../../assets/icons/task-display-row.svg";
 import TaskDisplayRowBlueIcon from "../../assets/icons/task-display-row-blue.svg";
 import TaskDisplayCardIcon from "../../assets/icons/task-display-card.svg";
 import TaskDisplayCardBlueIcon from "../../assets/icons/task-display-card-blue.svg";
 import { useState } from "react";
+import {TaskType} from "../../interfaces/TaskType";
 
-export default function TaskContainer() {
+type TaskContainerProps = {
+    tasks: TaskType[];
+    setTasks: React.Dispatch<React.SetStateAction<TaskType[]>>;
+    SetModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const TaskContainer: React.FC<TaskContainerProps> = ({ tasks, setTasks, SetModalOpen }) => {
     const [display, setDisplay] = useState("card");
-    const [tasks, setTasks] = useState(Tasks);
-
     const handleDisplayChange = (value: string) => {
         setDisplay(value);
     }
 
     const handleDeleteTask = (index: number) => {
         const newTasks = [...tasks];
+      
         newTasks.splice(index, 1);
         setTasks(newTasks);
     }
@@ -33,29 +38,30 @@ export default function TaskContainer() {
         setTasks(newTasks);
     }
 
+
     return (
         <div className="task-container">
 
-            <p className="total-task-count">All task ({Tasks.length} tasks)</p>
-            
+            <p className="total-task-count">All task ({tasks.length} tasks)</p>
+
             <div className="task-controls">
                 <div className="task-display-controls">
                     <div className="task-display-option">
-                        <img 
-                            src={display !== "card" ? TaskDisplayRowBlueIcon : TaskDisplayRowIcon} 
-                            alt="" 
-                            className="icon" 
-                            onClick={() => handleDisplayChange("row")} 
-                        />            
+                        <img
+                            src={display !== "card" ? TaskDisplayRowBlueIcon : TaskDisplayRowIcon}
+                            alt=""
+                            className="icon"
+                            onClick={() => handleDisplayChange("row")}
+                        />
                     </div>
 
                     <div className="task-display-option">
-                        <img 
-                            src={display === "card" ? TaskDisplayCardBlueIcon : TaskDisplayCardIcon} 
-                            alt="" 
-                            className="icon" 
-                            onClick={() => handleDisplayChange("card")} 
-                        />            
+                        <img
+                            src={display === "card" ? TaskDisplayCardBlueIcon : TaskDisplayCardIcon}
+                            alt=""
+                            className="icon"
+                            onClick={() => handleDisplayChange("card")}
+                        />
                     </div>
                 </div>
 
@@ -63,10 +69,10 @@ export default function TaskContainer() {
                     {/* Thêm các phần tử và logic cho controls sắp xếp nếu cần */}
                 </div>
             </div>
-        
-            <div className={display !== "row" ?  "task-list" : "task-list-row"}>
-               {tasks.map((task, index) => (
-                    <Task 
+
+            <div className={display !== "row" ? "task-list" : "task-list-row"}>
+                {tasks.map((task, index) => (
+                    <Task
                         key={index}
                         title={task.title}
                         description={task.description}
@@ -78,12 +84,14 @@ export default function TaskContainer() {
                         changeImportant={() => handleChangeImportant(index)}
                         changeProgress={() => handChangeProgress(index)}
                     />
-               ))}
+                ))}
 
-               <div className="add-task-box">
+                <div className="add-task-box" onClick={()=> SetModalOpen(true)}>
                     Add new task
-               </div>
+                </div>
             </div>
         </div>
     );
 }
+
+export default TaskContainer;
