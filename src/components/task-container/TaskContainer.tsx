@@ -1,24 +1,28 @@
 import { useEffect, useState } from "react";
 import { green, red } from '@ant-design/colors';
 import { Flex, Progress } from 'antd';
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { removeTask, toggleImportantTask, toggleTaskCompleted } from "../../store/Tasks.store";
+import { openModal } from "../../store/modal.store";
 import "../../assets/styles/TaskContainer/TaskContainer.css";
 import Task from "./Task";
-import {Tasks} from "../../constant/Tasks";
 import TaskDisplayRowIcon from "../../assets/icons/task-display-row.svg";
 import TaskDisplayRowBlueIcon from "../../assets/icons/task-display-row-blue.svg";
 import TaskDisplayCardIcon from "../../assets/icons/task-display-card.svg";
 import TaskDisplayCardBlueIcon from "../../assets/icons/task-display-card-blue.svg";
-import {TaskType} from "../../interfaces/TaskType";
+import { TaskType } from "../../interfaces/TaskType";
+
 
 type TaskContainerProps = {
     tabId: number,
-    tasks: TaskType[];
-    setTasks: React.Dispatch<React.SetStateAction<TaskType[]>>;
-    SetModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 
-const TaskContainer: React.FC<TaskContainerProps> = ({tabId, tasks, setTasks, SetModalOpen }) => {
+const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
+
+    const tasks = useAppSelector((state) => state.tasks);
+    const dispatch = useAppDispatch();
+
     const [display, setDisplay] = useState("card");
     const [completePercent, setCompletePercent] = useState(0);
     const [uncompletePercent, setUncompletePercent] = useState(0);
@@ -27,30 +31,23 @@ const TaskContainer: React.FC<TaskContainerProps> = ({tabId, tasks, setTasks, Se
     }
 
     const handleDeleteTask = (id: string) => {
-        const newTasks = tasks.filter(task => task.id !== id);
-        setTasks(newTasks);
+        dispatch(removeTask(id));
     }
 
     const handleChangeImportant = (id: string) => {
-        const newTasks = [...tasks];
-        const taskIndex = newTasks.findIndex(task => task.id === id);
-        newTasks[taskIndex].isImportant = !newTasks[taskIndex].isImportant;
-        setTasks(newTasks);
+        dispatch(toggleImportantTask(id));
     }
 
     const handChangeProgress = (id: string) => {
-        const newTasks = [...tasks];
-        const taskIndex = newTasks.findIndex(task => task.id === id);
-        newTasks[taskIndex].isComplete = !newTasks[taskIndex].isComplete;
-        setTasks(newTasks);
+        dispatch(toggleTaskCompleted(id));
     }
 
 
-    
+
 
     useEffect(() => {
         let filedTasks = tasks;
-        switch(tabId) {
+        switch (tabId) {
             case 1:
                 break;
             case 2:
@@ -61,18 +58,18 @@ const TaskContainer: React.FC<TaskContainerProps> = ({tabId, tasks, setTasks, Se
                 const month = String(today.getMonth() + 1).padStart(2, '0'); // getMonth() returns 0-based month
                 //
                 const year = today.getFullYear();
-                
+
                 const formattedDate = `${day}/${month}/${year}`;
                 filedTasks = (tasks.filter(task => task.date == formattedDate));
                 break;
             case 3:
-                filedTasks=(tasks.filter(task => task.isImportant));
+                filedTasks = (tasks.filter(task => task.isImportant));
                 break;
             case 4:
-                filedTasks=(tasks.filter(task => task.isComplete));
+                filedTasks = (tasks.filter(task => task.isComplete));
                 break;
             case 5:
-                filedTasks=(tasks.filter(task => !task.isComplete));
+                filedTasks = (tasks.filter(task => !task.isComplete));
                 break;
         }
 
@@ -85,12 +82,12 @@ const TaskContainer: React.FC<TaskContainerProps> = ({tabId, tasks, setTasks, Se
 
         setCompletePercent(percentComplete);
         setUncompletePercent(percentUncomplete);
-        
+
     }, [tabId, tasks]);  // Thêm Tasks vào dependency array nếu cần
 
 
     function displayTask(tasks: TaskType[]) {
-        switch(tabId) {
+        switch (tabId) {
             case 1:
                 return tasks;
             case 2:
@@ -101,15 +98,15 @@ const TaskContainer: React.FC<TaskContainerProps> = ({tabId, tasks, setTasks, Se
                 const month = String(today.getMonth() + 1).padStart(2, '0'); // getMonth() returns 0-based month
                 //
                 const year = today.getFullYear();
-                
+
                 const formattedDate = `${day}/${month}/${year}`;
                 return (tasks.filter(task => task.date == formattedDate));
             case 3:
-                 return (tasks.filter(task => task.isImportant));
+                return (tasks.filter(task => task.isImportant));
             case 4:
-                return(tasks.filter(task => task.isComplete));
+                return (tasks.filter(task => task.isComplete));
             case 5:
-                return(tasks.filter(task => !task.isComplete));
+                return (tasks.filter(task => !task.isComplete));
         }
         return tasks;
     }
@@ -119,10 +116,10 @@ const TaskContainer: React.FC<TaskContainerProps> = ({tabId, tasks, setTasks, Se
 
 
             <p className="total-task-count">All task ({tasks.length} tasks)</p>
-            
+
             <Flex gap="small" vertical>
-                <Progress percent={completePercent} steps={10} strokeColor={green[6]}  />
-                <Progress percent={uncompletePercent} steps={10} strokeColor={red[5]} status={ (uncompletePercent === 100) ? "exception" : "normal"} />
+                <Progress percent={completePercent} steps={10} strokeColor={green[6]} />
+                <Progress percent={uncompletePercent} steps={10} strokeColor={red[5]} status={(uncompletePercent === 100) ? "exception" : "normal"} />
             </Flex>
 
 
@@ -154,18 +151,11 @@ const TaskContainer: React.FC<TaskContainerProps> = ({tabId, tasks, setTasks, Se
 
 
             <div className={display !== "row" ? "task-list" : "task-list-row"}>
-                
-                
-                
 
                 {displayTask(tasks).map((task, index) => (
                     <Task
                         key={index}
-                        title={task.title}
-                        description={task.description}
-                        date={task.date}
-                        isImportant={task.isImportant}
-                        isComplete={task.isComplete}
+                        task={task}
                         display={display}
                         deleteTask={() => handleDeleteTask(task.id)}
                         changeImportant={() => handleChangeImportant(task.id)}
@@ -174,7 +164,7 @@ const TaskContainer: React.FC<TaskContainerProps> = ({tabId, tasks, setTasks, Se
                 ))}
 
 
-                <div className="add-task-box" onClick={()=> SetModalOpen(true)}>
+                <div className="add-task-box" onClick={() => dispatch(openModal())}>
 
                     Add new task
                 </div>

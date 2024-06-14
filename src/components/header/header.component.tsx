@@ -1,7 +1,6 @@
 import "../../assets/styles/HeaderStyle/header.css"
 import { Input } from 'antd';
 import type { SearchProps } from 'antd/es/input/Search';
-import { TaskType } from "../../interfaces/TaskType";
 import AddTask from "../todo-add/AddTask";
 
 
@@ -10,13 +9,9 @@ const { Search } = Input;
 const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
 
 type HeaderProps = {
-    tasks: TaskType[];
-    setTasks: React.Dispatch<React.SetStateAction<TaskType[]>>;
-    modalOpen: boolean;
-    SetModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Header: React.FC<HeaderProps> = ({ tasks, setTasks, modalOpen, SetModalOpen }) => {
+const Header: React.FC<HeaderProps> = () => {
 
 
     return (
@@ -24,7 +19,7 @@ const Header: React.FC<HeaderProps> = ({ tasks, setTasks, modalOpen, SetModalOpe
         <header>
 
             <div className="option-content flex">
-                <AddTask tasks={tasks} setTasks={setTasks} modalOpen={modalOpen} setModalOpen={SetModalOpen} />
+                <AddTask />
             </div>
 
             <div className="search-content max-w-72">
