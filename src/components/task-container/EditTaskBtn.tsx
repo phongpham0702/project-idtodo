@@ -35,7 +35,7 @@ const EditTaskBtn: React.FC<editBtnProps> = ({ task }) => {
                         >
                             ✕
                         </button>
-                        <ModalContent task={task} nameForm="edit task" onConfirm={editTaskHandler} onClose={() => setModalEditTaskOpen(false)} >
+                        <ModalContent task={task} nameForm="Edit task" onConfirm={editTaskHandler} onClose={() => setModalEditTaskOpen(false)} >
                         </ModalContent>
                     </div>
                 </dialog>

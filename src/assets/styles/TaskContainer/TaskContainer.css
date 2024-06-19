@@ -6,16 +6,15 @@
     overflow-y: auto;
 }
 
-.task-container .icon{
+.task-container .icon, .task-controls .icon{
     width: 24px;
     height: 24px;   
     margin-right: 10px; 
-    padding: 5px;
     box-sizing: content-box;
 }
 
 .total-task-count{
-    padding: 20px 0px;
+    padding: 10px 0px;
     font-size: 32px;
 }
 
@@ -59,9 +58,10 @@
 
 .task-list{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     row-gap: 10px;
     column-gap: 10px;
+    margin: 10px 0;
 }
 
 .task-list-row{
@@ -69,6 +69,7 @@
     grid-template-columns: 1fr;
     row-gap: 10px;
     column-gap: 10px;
+    margin: 10px 0;
 }
 
 .add-task-box{
@@ -82,25 +83,41 @@
     cursor: pointer;
 }
 .task-list .add-task-box{
-    min-height: 254px;
+    height: 15.5rem;
 }
 
 .task-list-row .add-task-box{
-    min-height: 110px;
+    min-height: 7rem;
 }
 
 .add-task-box:active{
     background-color:     var(--main-color-blur);
+
 }
 
-@media only screen and (max-width: 768px) {
+@media (min-width: 1025px) and (max-width: 1300px) {
+    .task-list{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media (min-width: 569px) and (max-width: 1024px) {
     .task-list{
         grid-template-columns: 1fr 1fr;
     }
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 568px) {
     .task-list{
         grid-template-columns: 1fr;
+    }
+}
+
+
+
+@media only screen and (max-height: 500px) {
+
+    .task-controls{
+        padding: 0px !important;
     }
 }

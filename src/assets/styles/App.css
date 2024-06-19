@@ -1,11 +1,12 @@
 #root {
   width: 100%;
-  min-height: 100vh;
+  min-height: 100vh;  
   margin: 0 auto;
   display: flex;
   gap: 2rem;
   background-color: rgb(235, 235, 235);
 }
+
 
 /* @keyframes logo-spin {
   from {

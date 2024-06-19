@@ -61,7 +61,7 @@ export default function Task(
                         </div>
                     }
 
-                    <div className="other-action flex flex-nowrap">
+                    <div className="other-action">
                         <img src={task.isImportant ? ImportantTaskIcon : UnimportantTaskIcon} 
                             alt=""
                             className="icon" 

@@ -60,7 +60,7 @@ const ModalContent: React.FC<ModalContentProps> = ({task,onConfirm,nameForm,onCl
             isImportant: isImportant,
             isComplete: isCompleted
         }) : onConfirm({
-            id: Math.random().toString(36).substring(2, length),
+            id: Math.random().toString(36).substring(2, 8),
             title: newTaskValue,
             description: taskDescription,
             date: formatDate(taskDate),
@@ -68,11 +68,13 @@ const ModalContent: React.FC<ModalContentProps> = ({task,onConfirm,nameForm,onCl
             isComplete: isCompleted
         })
         onClose();
+
+        
     }
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
-                    <h3 className='font-bold text-lg'>Add new task</h3>
+                    <h3 className='font-bold text-lg'>{nameForm}</h3>
                     <div className='form-control'>
                         <label htmlFor="task-title" className="label">Title</label>
                         <input
