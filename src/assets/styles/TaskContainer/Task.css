@@ -98,12 +98,15 @@
     margin-right: 10px;
 }
 
-
 .task-others-info{
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
+    flex: 0.5;
+}
+
+.isRow .task-others-info{
     flex: 2;
 }
 
