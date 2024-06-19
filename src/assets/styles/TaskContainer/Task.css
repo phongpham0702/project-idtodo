@@ -65,6 +65,7 @@
 
 .isRow .task-desciption{
     font-size: 1rem;
+    line-height: 2rem;
     color: var(--task-description-title-color);
     height: 100px;
     flex: 3;
