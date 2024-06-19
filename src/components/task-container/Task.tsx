@@ -42,13 +42,15 @@ export default function Task(
             
             <div className={display !== "row" ?  "task isCard" : "task isRow"}>
                 
-                <div className="task-title">{task.title}</div>
-                
-                <div className="task-desciption">{task.description}</div>
-                
-                <div className="task-date">
-                    <img src={CalendarIcon} alt="" className="icon" />
-                    {task.date}
+                <div className="task-main-info">
+                    <div className="task-title">{task.title}</div>
+                    
+                    <div className="task-desciption">{task.description}</div>
+                    
+                    <div className="task-date">
+                        <img src={CalendarIcon} alt="" className="icon" />
+                        {task.date}
+                    </div>
                 </div>
 
                 <div className="task-others-info">
