@@ -1,17 +1,19 @@
-:root{
+:root {
     --main-color: #1a77ff;
     --main-color-blur: #13d4ff;
     --task-description-title-color: #000000;
     --delete-icon-bg-color: #ff1a1a;
     --delete-icon-bg-color-blur: #ff8d8d;
 }
-.task.isCard{
+
+.task.isCard {
     background-color: white;
     border-radius: 5px;
     padding: 5px 10px;
 }
 
-.task.isRow{
+
+.task.isRow {
     background-color: white;
     border-radius: 5px;
     padding: 5px 10px;
@@ -21,30 +23,30 @@
     align-items: center;
 }
 
-.task:hover{
-    background-color:     var(--main-color);
+.task:hover {
+    background-color: var(--main-color);
 }
 
 .task:hover .task-title,
 .task:hover .task-desciption,
-.task:hover .task-date{
+.task:hover .task-date {
     color: white;
 }
 
-.task-title{
+.task-title {
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--main-color);
 }
 
-.isCard .task-desciption{
+.isCard .task-desciption {
     font-size: 1rem;
     margin: 0;
     color: var(--task-description-title-color);
     height: 100px;
 }
 
-.isRow .task-desciption{
+.isRow .task-desciption {
     font-size: 1rem;
     margin: 0;
     color: var(--task-description-title-color);
@@ -53,7 +55,7 @@
     align-items: center;
 }
 
-.task-date{
+.task-date {
     display: flex;
     align-items: center;
     margin: 10px 0;
@@ -61,32 +63,33 @@
 }
 
 
-.isCard .task-others-info{
+.isCard .task-others-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
     border-top: 0.8px dashed rgb(189, 189, 189);
-} 
+}
 
-.task-others-info{
+.task-others-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
 }
 
-.delete-task:hover{
+.delete-task:hover {
     border-radius: 50%;
     background-color: var(--delete-icon-bg-color);
 }
 
-.delete-task:active{
+.delete-task:active {
     border-radius: 50%;
     background-color: var(--delete-icon-bg-color-blur);
 }
 
-.complete-tag, .uncomplete-tag{
+.complete-tag,
+.uncomplete-tag {
     display: inline-block;
     border-radius: 24px;
     padding: 5px 10px;
@@ -95,11 +98,11 @@
     text-align: center;
 }
 
-.complete-tag{
+.complete-tag {
     background-color: greenyellow;
 }
 
-.uncomplete-tag{
+.uncomplete-tag {
     background-color: red;
     color: white;
 }
