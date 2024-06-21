@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Modal, Input, DatePicker, Checkbox } from 'antd';
 import dayjs from 'dayjs';
 import InputCheckbox from '../../components/todo-add/InputCheckbox'; // Adjust the import path based on your project structure
+import { TaskType } from '../../interfaces/TaskType.ts'
 
 
 interface TaskProps {
