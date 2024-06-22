@@ -3,7 +3,6 @@ import { green, red } from '@ant-design/colors';
 import { Flex, Progress } from 'antd';
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { removeTask, toggleImportantTask, toggleTaskCompleted } from "../../store/Tasks.store";
-import  useWindowSize  from "../../hooks/useWindowSize";
 import { openModal } from "../../store/modal.store";
 import "../../assets/styles/TaskContainer/TaskContainer.css";
 import Task from "./Task";
@@ -22,11 +21,10 @@ type TaskContainerProps = {
 const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
 
     const tasks = useAppSelector((state) => state.tasks);
-    const dispatch = useAppDispatch(); 
+    const dispatch = useAppDispatch();
 
-
-    const {width, height} = useWindowSize();    
     const [display, setDisplay] = useState("card");
+    const [ableToDisplayRow, setAbleToDisplayRow] = useState(() => { return window.innerWidth >= 1048 });
     const [completePercent, setCompletePercent] = useState(0);
     const [uncompletePercent, setUncompletePercent] = useState(0);
     const handleDisplayChange = (value: string) => {
@@ -46,51 +44,31 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
     }
 
     const handleWindowSizeChange = () => {
-        if (width < 1048) {
+
+        if (window.innerWidth < 1048) {
             setDisplay("card");
+            setAbleToDisplayRow(false);
+        } else {
+            setAbleToDisplayRow(true);
         }
     }
 
     useEffect(() => {
-        handleWindowSizeChange();
-    }, [width]);
-
+        window.addEventListener("resize", handleWindowSizeChange);
+        return () => {
+            window.removeEventListener("resize", handleWindowSizeChange);
+        }
+    }, []);
 
 
     useEffect(() => {
-        let filedTasks = tasks;
-        switch (tabId) {
-            case 1:
-                break;
-            case 2:
-                const today = new Date();
-                //
-                const day = String(today.getDate()).padStart(2, '0');
-                //
-                const month = String(today.getMonth() + 1).padStart(2, '0'); // getMonth() returns 0-based month
-                //
-                const year = today.getFullYear();
+        let filteredTasks = filteringTask(tasks);
 
-                const formattedDate = `${day}/${month}/${year}`;
-                filedTasks = (tasks.filter(task => task.date == formattedDate));
-                break;
-            case 3:
-                filedTasks = (tasks.filter(task => task.isImportant));
-                break;
-            case 4:
-                filedTasks = (tasks.filter(task => task.isComplete));
-                break;
-            case 5:
-                filedTasks = (tasks.filter(task => !task.isComplete));
-                break;
-        }
-
-        const completedTasks = filedTasks.filter(task => task.isComplete);
-        const uncompletedTasks = filedTasks.filter(task => !task.isComplete);
-        const totalTasks = filedTasks.length;
+        const completedTasks = filteredTasks.filter(task => task.isComplete);
+        const totalTasks = filteredTasks.length;
         // Tính toán phần trăm hoàn thành của tất cả các task
-        let percentComplete = completedTasks.length / totalTasks * 100;
-        let percentUncomplete = uncompletedTasks.length / totalTasks * 100;
+        let percentComplete = Math.floor(completedTasks.length / totalTasks * 100);
+        let percentUncomplete = 100 - percentComplete;
 
         setCompletePercent(percentComplete);
         setUncompletePercent(percentUncomplete);
@@ -98,7 +76,7 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
     }, [tabId, tasks]);  // Thêm Tasks vào dependency array nếu cần
 
 
-    function displayTask(tasks: TaskType[]) {
+    function filteringTask(tasks: TaskType[]) {
         switch (tabId) {
             case 1:
                 return tasks;
@@ -127,7 +105,7 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
 
 
         <>
-            <p className="total-task-count">All task ({displayTask(tasks).length} tasks)</p>
+            <p className="total-task-count">All task ({filteringTask(tasks).length} tasks)</p>
 
             <Flex gap="small" vertical>
                 <Progress percent={completePercent} steps={10} strokeColor={green[6]} />
@@ -136,35 +114,35 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
 
 
             <div className="task-controls">
-                    { (width > 1048) && ( <div className="task-display-controls">
-                        <div className="task-display-option">
-                            <img
-                                src={display !== "card" ? TaskDisplayRowBlueIcon : TaskDisplayRowIcon}
-                                alt=""
-                                className="icon row-icon"
-                                onClick={() => handleDisplayChange("row")}
-                            />
-                        </div>
-
-                        <div className="task-display-option">
-                            <img
-                                src={display === "card" ? TaskDisplayCardBlueIcon : TaskDisplayCardIcon}
-                                alt=""
-                                className="icon"
-                                onClick={() => handleDisplayChange("card")}
-                            />
-                        </div>
-                    </div>)}
-
-                    <div className="task-sorting-controls">
-                        {/* Thêm các phần tử và logic cho controls sắp xếp nếu cần */}
+                {ableToDisplayRow && (<div className="task-display-controls">
+                    <div className="task-display-option">
+                        <img
+                            src={display !== "card" ? TaskDisplayRowBlueIcon : TaskDisplayRowIcon}
+                            alt=""
+                            className="icon row-icon"
+                            onClick={() => handleDisplayChange("row")}
+                        />
                     </div>
+
+                    <div className="task-display-option">
+                        <img
+                            src={display === "card" ? TaskDisplayCardBlueIcon : TaskDisplayCardIcon}
+                            alt=""
+                            className="icon"
+                            onClick={() => handleDisplayChange("card")}
+                        />
+                    </div>
+                </div>)}
+
+                <div className="task-sorting-controls">
+                    {/* Thêm các phần tử và logic cho controls sắp xếp nếu cần */}
+                </div>
             </div>
 
-            <div className="task-container">    
+            <div className="task-container">
                 <div className={display !== "row" ? "task-list" : "task-list-row"}>
 
-                    {displayTask(tasks).map((task, index) => (
+                    {filteringTask(tasks).map((task, index) => (
                         <Task
                             key={index}
                             task={task}
@@ -182,10 +160,10 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
                     </div>
                 </div>
             </div>
-        
+
         </>
 
-        
+
     );
 }
 

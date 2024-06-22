@@ -11,7 +11,7 @@ type propsType = {
 
 const SideBar = ({ tabId, handleTabClick }: propsType) => {
 
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState(() => window.innerWidth <= 768);
 
     const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -24,12 +24,22 @@ const SideBar = ({ tabId, handleTabClick }: propsType) => {
                 }
             }
         }
-        document.addEventListener('click', handleClickOutside);       
 
+        const handleResize = () => {
+            if (window.innerWidth <= 768) {
+
+                setCollapsed(true);
+            } 
+        }
+
+        document.addEventListener('click', handleClickOutside);   
+        window.addEventListener('resize', handleResize);
+        
         return () => {
             document.removeEventListener('click', handleClickOutside);
+            window.removeEventListener('resize', handleResize);
         }
-    }, [])
+    }, [collapsed])
 
     return (
 
