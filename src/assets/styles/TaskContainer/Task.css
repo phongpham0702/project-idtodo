@@ -47,6 +47,10 @@
     -webkit-line-clamp: 1;
 }
 
+.isCard .task-title{
+    flex: 0.7;
+}
+
 .task-desciption{
     overflow: hidden;
     display: -webkit-box;

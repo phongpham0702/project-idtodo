@@ -2,16 +2,22 @@ import "../../assets/styles/HeaderStyle/header.css"
 import { Input } from 'antd';
 import type { SearchProps } from 'antd/es/input/Search';
 import AddTask from "../todo-add/AddTask";
-
-
+import { useAppSelector, useAppDispatch} from "../../store/hooks";
+import { setSearchQuerry } from "../../store/searchQuerry.store";
+import checkIncludes from "../../utilities/checkIncludes";
 const { Search } = Input;
-
-const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
 
 type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = () => {
+
+
+    const dispatch = useAppDispatch();
+
+    const tasks = useAppSelector((state) => state.tasks);
+
+    const onSearch: SearchProps['onSearch'] = (value, _e) => {dispatch(setSearchQuerry(value)); if(!checkIncludes(tasks,value))  alert("task not found")};
 
 
     return (

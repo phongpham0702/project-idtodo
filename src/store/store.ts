@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import tasksReducer from './Tasks.store'
 import modalReducer from './modal.store'
+import searchQuerryReducer from './searchQuerry.store'
 // ...
 
 export const store = configureStore({
   reducer: {
     tasks: tasksReducer,
-    modal: modalReducer
+    modal: modalReducer,
+    searchQuerry: searchQuerryReducer,
   }
 })
 

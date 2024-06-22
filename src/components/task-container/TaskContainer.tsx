@@ -11,6 +11,7 @@ import TaskDisplayRowBlueIcon from "../../assets/icons/task-display-row-blue.svg
 import TaskDisplayCardIcon from "../../assets/icons/task-display-card.svg";
 import TaskDisplayCardBlueIcon from "../../assets/icons/task-display-card-blue.svg";
 import { TaskType } from "../../interfaces/TaskType";
+import useSearchQuerry from "../../hooks/useSearchQuerry";
 
 
 type TaskContainerProps = {
@@ -21,8 +22,8 @@ type TaskContainerProps = {
 const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
 
     const tasks = useAppSelector((state) => state.tasks);
+    const matchedTasks = useSearchQuerry();
     const dispatch = useAppDispatch();
-
     const [display, setDisplay] = useState("card");
     const [ableToDisplayRow, setAbleToDisplayRow] = useState(() => { return window.innerWidth >= 1048 });
     const [completePercent, setCompletePercent] = useState(0);
@@ -62,7 +63,7 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
 
 
     useEffect(() => {
-        let filteredTasks = filteringTask(tasks);
+        let filteredTasks = !(matchedTasks.length == 0) ? filteringTask(matchedTasks) : filteringTask(tasks);
 
         const completedTasks = filteredTasks.filter(task => task.isComplete);
         const totalTasks = filteredTasks.length;
@@ -73,7 +74,7 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
         setCompletePercent(percentComplete);
         setUncompletePercent(percentUncomplete);
 
-    }, [tabId, tasks]);  // Thêm Tasks vào dependency array nếu cần
+    }, [tabId, tasks, matchedTasks]);  // Thêm Tasks vào dependency array nếu cần
 
 
     function filteringTask(tasks: TaskType[]) {
@@ -101,11 +102,12 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
         return tasks;
     }
 
+
     return (
 
 
         <>
-            <p className="total-task-count">All task ({filteringTask(tasks).length} tasks)</p>
+            <p className="total-task-count">All task ({ !(matchedTasks.length == 0) ? filteringTask(matchedTasks).length : filteringTask(tasks).length} tasks)</p>
 
             <Flex gap="small" vertical>
                 <Progress percent={completePercent} steps={10} strokeColor={green[6]} />
@@ -142,7 +144,7 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
             <div className="task-container">
                 <div className={display !== "row" ? "task-list" : "task-list-row"}>
 
-                    {filteringTask(tasks).map((task, index) => (
+                    {filteringTask(!(matchedTasks.length == 0) ? (matchedTasks) : (tasks)).map((task, index) => (
                         <Task
                             key={index}
                             task={task}
