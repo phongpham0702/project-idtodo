@@ -3,27 +3,20 @@ import CalendarIcon from "../../assets/icons/calendar.svg";
 import ImportantTaskIcon from "../../assets/icons/important-star.svg";
 import UnimportantTaskIcon from "../../assets/icons/unimportant-task.svg";
 import DeleteIcon from "../../assets/icons/trash-bin.svg";
-import EditIcon from "../../assets/icons/edit-task.svg";
+import EditTaskBtn  from "./EditTaskBtn.tsx";
 import { useState} from "react";
 import { Modal } from 'antd';
+import { TaskType } from "../../interfaces/TaskType";
 export default function Task(
     {
-        title, 
-        description, 
-        date, 
-        isImportant, 
-        isComplete,
+        task,
         display,
         deleteTask,
         changeImportant,
         changeProgress
     }: 
     {   
-        title: string,
-        description: string,
-        date: string,
-        isImportant: boolean,
-        isComplete: boolean,
+        task: TaskType,
         display: string,
         deleteTask: () => void,
         changeImportant: () => void,
@@ -49,17 +42,19 @@ export default function Task(
             
             <div className={display !== "row" ?  "task isCard" : "task isRow"}>
                 
-                <div className="task-title">{title}</div>
-                
-                <div className="task-desciption">{description}</div>
-                
-                <div className="task-date">
-                    <img src={CalendarIcon} alt="" className="icon" />
-                    {date}
+                <div className="task-main-info">
+                    <div className="task-title">{task.title}</div>
+                    
+                    <div className="task-desciption">{task.description}</div>
+                    
+                    <div className="task-date">
+                        <img src={CalendarIcon} alt="" className="icon" />
+                        {task.date}
+                    </div>
                 </div>
 
                 <div className="task-others-info">
-                    {isComplete ? 
+                    {task.isComplete ? 
                         <div className="complete-tag cursor-pointer" onClick={changeProgress}>
                             completed
                         </div> :
@@ -68,8 +63,8 @@ export default function Task(
                         </div>
                     }
 
-                    <div className="other-action flex flex-nowrap">
-                        <img src={isImportant ? ImportantTaskIcon : UnimportantTaskIcon} 
+                    <div className="other-action">
+                        <img src={task.isImportant ? ImportantTaskIcon : UnimportantTaskIcon} 
                             alt=""
                             className="icon" 
                             onClick={changeImportant}
@@ -80,9 +75,7 @@ export default function Task(
                             onClick={showModal}
                         />
 
-                        <img src={EditIcon} alt="" 
-                            className="icon"
-                        />
+                        <EditTaskBtn task={task}></EditTaskBtn> 
                     </div>
                 </div>
             </div>
@@ -96,7 +89,6 @@ export default function Task(
                 okButtonProps={{ style: { backgroundColor: 'red' } }}
             >    
             </Modal>
-          
 
         </div>
     );

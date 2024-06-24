@@ -94,10 +94,47 @@
     letter-spacing: 3.5px;
 }
 
+
+.invisible{
+    display: none;
+}
+
 @media only screen and (max-width: 768px) {
     .sidebar{
         height: 100% !important; 
-        position: absolute;
+        position: fixed;
+        left: -70px;
         box-shadow: -6px 3px 20px 5px black;
+        padding-left: var(--side-bar-width-minimize);
+        z-index: 1000;
     }
+
+    .sidebar.sidebar.minimize{
+        box-shadow: none;
+    }
+
+    .header-content, .sidebar-footer{
+        overflow: hidden;
+    }
+}
+
+
+@media only screen and (max-height: 500px) {
+    .header-content{
+        display: none !important;
+    }
+
+    .sidebar-toggle{
+        height: 20vh !important;    
+        transform: translateY(100%) !important;
+    }
+
+    .tab-container{
+        height: 20vh !important;
+    }
+
+    .sidebar-footer{
+        display: none !important;
+    }
+
 }
