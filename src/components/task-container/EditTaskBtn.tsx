@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { editTask } from '../../store/Tasks.store';
 import { useState } from 'react';
 import ModalContent from '../todo-add/ModalContent';
+import api from '../data/api';
 
 type editBtnProps = {
     task: TaskType
@@ -14,8 +15,14 @@ type editBtnProps = {
 const EditTaskBtn: React.FC<editBtnProps> = ({ task }) => {
     const dispatch = useAppDispatch();
     const [modalEditTaskOpen, setModalEditTaskOpen] = useState<boolean>(false);
-    const editTaskHandler = (task: TaskType) => {
-        dispatch(editTask(task))
+    const editTaskHandler = async (task: TaskType) => {
+        try{
+            await api.put(`/tasks/${task.id}`, task);
+            dispatch(editTask(task))
+        }
+        catch(error){
+            console.error('Failed to update task', error);
+        }
     }
 
     return (

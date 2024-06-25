@@ -2,18 +2,24 @@
 
 import { AiOutlinePlus } from 'react-icons/ai';
 import Modal from './Modal';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addTask } from '../../store/Tasks.store';
 import { TaskType } from '../../interfaces/TaskType';
 import { openModal } from '../../store/modal.store';
+import api from '../data/api';
 
 
 const AddTask: React.FC<{}> = () => {
 
     const dispatch = useAppDispatch();
 
-    const addTaskHandler = (task: TaskType) => {
-        dispatch(addTask(task));
+    const addTaskHandler = async (task: TaskType) => {
+        try {
+            await api.post<TaskType>('/tasks', task);
+            dispatch(addTask(task));
+        } catch (error) {
+            console.error('Failed to save task', error);
+        }
     }
     
     

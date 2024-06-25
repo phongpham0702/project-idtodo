@@ -12,7 +12,7 @@ import TaskDisplayCardIcon from "../../assets/icons/task-display-card.svg";
 import TaskDisplayCardBlueIcon from "../../assets/icons/task-display-card-blue.svg";
 import { TaskType } from "../../interfaces/TaskType";
 import useSearchQuerry from "../../hooks/useSearchQuerry";
-
+import api from "../data/api";
 
 type TaskContainerProps = {
     tabId: number,
@@ -32,16 +32,25 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
         setDisplay(value);
     }
 
-    const handleDeleteTask = (id: string) => {
-        dispatch(removeTask(id));
+    const handleDeleteTask = async (id: string) => {
+        try {
+            await api.delete(`/tasks/${id}`);
+            dispatch(removeTask(id));
+        } catch (error) {
+            console.error('Failed to delete task', error);
+        }
     }
 
-    const handleChangeImportant = (id: string) => {
-        dispatch(toggleImportantTask(id));
+    const handleChangeImportant = async (task: TaskType) => {
+        dispatch(toggleImportantTask(task.id));
+        let newTask = { ...task, isImportant: !task.isImportant }
+        await api.put(`/tasks/${task.id}`, newTask);
     }
 
-    const handChangeProgress = (id: string) => {
-        dispatch(toggleTaskCompleted(id));
+    const handChangeProgress = async (task: TaskType) => {
+        dispatch(toggleTaskCompleted(task.id));
+        let newTask = { ...task, isComplete: !task.isComplete }
+        await api.put(`/tasks/${task.id}`, newTask);
     }
 
     const handleWindowSizeChange = () => {
@@ -107,7 +116,7 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
 
 
         <>
-            <p className="total-task-count">All task ({ !(matchedTasks.length == 0) ? filteringTask(matchedTasks).length : filteringTask(tasks).length} tasks)</p>
+            <p className="total-task-count">All task ({!(matchedTasks.length == 0) ? filteringTask(matchedTasks).length : filteringTask(tasks).length} tasks)</p>
 
             <Flex gap="small" vertical>
                 <Progress percent={completePercent} steps={10} strokeColor={green[6]} />
@@ -150,8 +159,8 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
                             task={task}
                             display={display}
                             deleteTask={() => handleDeleteTask(task.id)}
-                            changeImportant={() => handleChangeImportant(task.id)}
-                            changeProgress={() => handChangeProgress(task.id)}
+                            changeImportant={() => handleChangeImportant(task)}
+                            changeProgress={() => handChangeProgress(task)}
                         />
                     ))}
 
