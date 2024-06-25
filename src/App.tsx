@@ -11,6 +11,7 @@ function App() {
   const handleTabClick = (newTabId:number) => {
     setSelectedTabId(newTabId);
   };
+
   return (
     <>
       <SideBar tabId={selectedTabId} handleTabClick={handleTabClick}/>

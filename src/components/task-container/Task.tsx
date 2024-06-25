@@ -3,75 +3,38 @@ import CalendarIcon from "../../assets/icons/calendar.svg";
 import ImportantTaskIcon from "../../assets/icons/important-star.svg";
 import UnimportantTaskIcon from "../../assets/icons/unimportant-task.svg";
 import DeleteIcon from "../../assets/icons/trash-bin.svg";
-import EditIcon from "../../assets/icons/edit-task.svg";
-import { useState } from "react";
-import { Modal, Input, DatePicker, Checkbox } from 'antd';
-import dayjs from 'dayjs';
-import InputCheckbox from '../../components/todo-add/InputCheckbox'; // Adjust the import path based on your project structure
-import { TaskType } from '../../interfaces/TaskType.ts'
+import EditTaskBtn  from "./EditTaskBtn.tsx";
+import { useState} from "react";
+import { Modal } from 'antd';
+import { TaskType } from "../../interfaces/TaskType";
+export default function Task(
+    {
+        task,
+        display,
+        deleteTask,
+        changeImportant,
+        changeProgress
+    }: 
+    {   
+        task: TaskType,
+        display: string,
+        deleteTask: () => void,
+        changeImportant: () => void,
+        changeProgress: () => void
+    }
+) {
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = () => {
+      setIsModalOpen(true);
+    };
+    const handleOk = () => {
+      setIsModalOpen(false);
+      deleteTask();
+    };
+    const handleCancel = () => {
+      setIsModalOpen(false);
 
-interface TaskProps {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  isImportant: boolean;
-  isComplete: boolean;
-  display: string;
-  deleteTask: () => void;
-  changeImportant: () => void;
-  changeProgress: () => void;
-  updateTask: (id: string, updatedTask: TaskType) => void;
-}
-
-const Task: React.FC<TaskProps> = ({
-  id,
-  title,
-  description,
-  date,
-  isImportant,
-  isComplete,
-  display,
-  deleteTask,
-  changeImportant,
-  changeProgress,
-  updateTask
-}) => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editTitle, setEditTitle] = useState(title);
-  const [editDescription, setEditDescription] = useState(description);
-  const [editDate, setEditDate] = useState(dayjs(date, 'DD/MM/YYYY'));
-  const [editIsImportant, setEditIsImportant] = useState(isImportant);
-  const [editIsCompleted, setEditIsCompleted] = useState(isComplete); // State for marking task as completed
-
-  const showDeleteModal = () => {
-    setIsDeleteModalOpen(true);
-  };
-
-  const handleDeleteOk = () => {
-    setIsDeleteModalOpen(false);
-    deleteTask();
-  };
-
-  const handleDeleteCancel = () => {
-    setIsDeleteModalOpen(false);
-  };
-
-  const showEditModal = () => {
-    setIsEditModalOpen(true);
-  };
-
-  const handleEditOk = () => {
-    setIsEditModalOpen(false);
-    const updatedTask = {
-      id,
-      title: editTitle,
-      description: editDescription,
-      date: editDate.format('DD/MM/YYYY'),
-      isImportant: editIsImportant,
-      isComplete: editIsCompleted // Update isComplete based on edited state
     };
     updateTask(id, updatedTask);
   };
@@ -80,26 +43,59 @@ const Task: React.FC<TaskProps> = ({
     setIsEditModalOpen(false);
   };
 
-  return (
-    <div>
-      <div className={display !== "row" ? "task isCard" : "task isRow"}>
-        <div className="task-title">{title}</div>
-        <div className="task-description">{description}</div>
-        <div className="task-date">
-          <img src={CalendarIcon} alt="calendar icon" className="icon" />
-          {date}
-        </div>
 
-        <div className="task-others-info">
-          {editIsCompleted ? (
-            <div className="complete-tag cursor-pointer" onClick={changeProgress}>
-              completed
+    return (
+        <div>
+            
+            <div className={display !== "row" ?  "task isCard" : "task isRow"}>
+                
+                <div className="task-main-info">
+                    <div className="task-title">{task.title}</div>
+                    
+                    <div className="task-desciption">{task.description}</div>
+                    
+                    <div className="task-date">
+                        <img src={CalendarIcon} alt="" className="icon" />
+                        {task.date}
+                    </div>
+                </div>
+
+                <div className="task-others-info">
+                    {task.isComplete ? 
+                        <div className="complete-tag cursor-pointer" onClick={changeProgress}>
+                            completed
+                        </div> :
+                        <div className="uncomplete-tag cursor-pointer" onClick={changeProgress}>
+                            uncompleted
+                        </div>
+                    }
+
+                    <div className="other-action">
+                        <img src={task.isImportant ? ImportantTaskIcon : UnimportantTaskIcon} 
+                            alt=""
+                            className="icon" 
+                            onClick={changeImportant}
+                        />
+
+                        <img src={DeleteIcon} alt="" 
+                            className="delete-task icon"
+                            onClick={showModal}
+                        />
+
+                        <EditTaskBtn task={task}></EditTaskBtn> 
+                    </div>
+                </div>
             </div>
-          ) : (
-            <div className="uncomplete-tag cursor-pointer" onClick={changeProgress}>
-              uncompleted
-            </div>
-          )}
+                
+            <Modal 
+                title="Delete Task" 
+                open={isModalOpen} 
+                style={{ top: '50%' }}
+                onOk={handleOk} 
+                onCancel={handleCancel}
+                okButtonProps={{ style: { backgroundColor: 'red' } }}
+            >    
+           </Modal>
 
           <div className="other-action flex flex-nowrap">
             <img

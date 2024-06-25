@@ -10,6 +10,9 @@
     background-color: white;
     border-radius: 5px;
     padding: 5px 10px;
+    height: 15.5rem;
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -21,6 +24,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    height: 10rem;
 }
 
 .task:hover {
@@ -37,10 +41,29 @@
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--main-color);
+    flex: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+
+.isCard .task-title{
+    flex: 0.7;
+}
+
+.task-desciption{
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
 }
 
 .isCard .task-desciption {
     font-size: 1rem;
+    line-height: 2rem;
     margin: 0;
     color: var(--task-description-title-color);
     height: 100px;
@@ -48,18 +71,17 @@
 
 .isRow .task-desciption {
     font-size: 1rem;
-    margin: 0;
+    line-height: 2rem;
     color: var(--task-description-title-color);
     height: 100px;
-    display: flex;
-    align-items: center;
+    flex: 3;
 }
 
 .task-date {
     display: flex;
     align-items: center;
-    margin: 10px 0;
     color: var(--main-color);
+    flex: 1;
 }
 
 
@@ -71,11 +93,35 @@
     border-top: 0.8px dashed rgb(189, 189, 189);
 }
 
-.task-others-info {
+
+.task-main-info{
+    display: flex;
+    flex: 3;
+    flex-direction: column;
+    height: 100%;
+}
+
+.isRow .task-main-info{
+    margin-right: 10px;
+}
+
+.task-others-info{
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
+    flex: 0.5;
+}
+
+.isRow .task-others-info{
+    flex: 2;
+}
+
+.other-action{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
 }
 
 .delete-task:hover {
@@ -96,6 +142,7 @@
     margin-right: 20px;
     width: fit-content;
     text-align: center;
+    flex: 1;
 }
 
 .complete-tag {

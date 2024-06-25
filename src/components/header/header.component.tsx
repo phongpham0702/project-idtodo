@@ -1,22 +1,23 @@
 import "../../assets/styles/HeaderStyle/header.css"
 import { Input } from 'antd';
 import type { SearchProps } from 'antd/es/input/Search';
-import { TaskType } from "../../interfaces/TaskType";
 import AddTask from "../todo-add/AddTask";
-
-
+import { useAppSelector, useAppDispatch} from "../../store/hooks";
+import { setSearchQuerry } from "../../store/searchQuerry.store";
+import checkIncludes from "../../utilities/checkIncludes";
 const { Search } = Input;
 
-const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
-
 type HeaderProps = {
-    tasks: TaskType[];
-    setTasks: React.Dispatch<React.SetStateAction<TaskType[]>>;
-    modalOpen: boolean;
-    SetModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Header: React.FC<HeaderProps> = ({ tasks, setTasks, modalOpen, SetModalOpen }) => {
+const Header: React.FC<HeaderProps> = () => {
+
+
+    const dispatch = useAppDispatch();
+
+    const tasks = useAppSelector((state) => state.tasks);
+
+    const onSearch: SearchProps['onSearch'] = (value, _e) => {dispatch(setSearchQuerry(value)); if(!checkIncludes(tasks,value))  alert("task not found")};
 
 
     return (
@@ -24,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({ tasks, setTasks, modalOpen, SetModalOpe
         <header>
 
             <div className="option-content flex">
-                <AddTask tasks={tasks} setTasks={setTasks} modalOpen={modalOpen} setModalOpen={SetModalOpen} />
+                <AddTask />
             </div>
 
             <div className="search-content max-w-72">
