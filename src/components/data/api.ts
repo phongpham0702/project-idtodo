@@ -1,9 +1,7 @@
-import { ITask } from "../../constant/Tasks";
+import axios from 'axios';
 
-const baseUrl = 'http://localhost:3001';
+const api = axios.create({
+    baseURL: 'http://localhost:3001'
+});
 
-export const getAllTodos = async (): Promise<ITask[]> => {
-    const res = await fetch(`${baseUrl}/tasks`);
-    const todos = await res.json();
-    return todos;
-}
+export default api;
