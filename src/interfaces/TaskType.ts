@@ -5,4 +5,4 @@ export interface TaskType {
     date: string;
     isImportant: boolean;
     isComplete: boolean;
-};
+}

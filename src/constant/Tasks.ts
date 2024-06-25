@@ -1,3 +1,4 @@
+// Tasks.ts
 export const Tasks = [
     {
         id:"1",
@@ -40,4 +41,5 @@ export const Tasks = [
         isImportant: true,
         isComplete: false,
     }
-]
+];
+

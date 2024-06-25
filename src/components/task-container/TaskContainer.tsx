@@ -6,17 +6,25 @@ import { removeTask, toggleImportantTask, toggleTaskCompleted } from "../../stor
 import { openModal } from "../../store/modal.store";
 import "../../assets/styles/TaskContainer/TaskContainer.css";
 import Task from "./Task";
+
+import { Tasks } from "../../constant/Tasks";
+
 import TaskDisplayRowIcon from "../../assets/icons/task-display-row.svg";
 import TaskDisplayRowBlueIcon from "../../assets/icons/task-display-row-blue.svg";
 import TaskDisplayCardIcon from "../../assets/icons/task-display-card.svg";
 import TaskDisplayCardBlueIcon from "../../assets/icons/task-display-card-blue.svg";
 import { TaskType } from "../../interfaces/TaskType";
+
+import api from '../../components/data/api'; // Import the API instance
+
 import useSearchQuerry from "../../hooks/useSearchQuerry";
+
 
 
 type TaskContainerProps = {
     tabId: number,
 };
+
 
 
 const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
@@ -28,21 +36,43 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
     const [ableToDisplayRow, setAbleToDisplayRow] = useState(() => { return window.innerWidth >= 1048 });
     const [completePercent, setCompletePercent] = useState(0);
     const [uncompletePercent, setUncompletePercent] = useState(0);
+
     const handleDisplayChange = (value: string) => {
         setDisplay(value);
     }
 
-    const handleDeleteTask = (id: string) => {
-        dispatch(removeTask(id));
+
+    const handleDeleteTask = async (id: string) => {
+        try {
+            await api.delete(`/tasks/${id}`);
+            const newTasks = tasks.filter(task => task.id !== id);
+            setTasks(newTasks);
+        } catch (error) {
+            console.error("Failed to delete task", error);
+        }
     }
 
     const handleChangeImportant = (id: string) => {
         dispatch(toggleImportantTask(id));
     }
 
-    const handChangeProgress = (id: string) => {
-        dispatch(toggleTaskCompleted(id));
+
+    const handleChangeProgress = (id: string) => {
+        const newTasks = [...tasks];
+        const taskIndex = newTasks.findIndex(task => task.id === id);
+        newTasks[taskIndex].isComplete = !newTasks[taskIndex].isComplete;
+        setTasks(newTasks);
     }
+
+    const handleUpdateTask = async (id: string, updatedTask: TaskType) => {
+        try {
+            await api.put(`/tasks/${id}`, updatedTask);
+            const newTasks = tasks.map(task => task.id === id ? updatedTask : task);
+            setTasks(newTasks);
+        } catch (error) {
+            console.error("Failed to update task", error);
+
+    
 
     const handleWindowSizeChange = () => {
 
@@ -55,6 +85,7 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
     }
 
     useEffect(() => {
+
         window.addEventListener("resize", handleWindowSizeChange);
         return () => {
             window.removeEventListener("resize", handleWindowSizeChange);
@@ -77,21 +108,20 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
     }, [tabId, tasks, matchedTasks]);  // Thêm Tasks vào dependency array nếu cần
 
 
+    }, [tabId, tasks]);
+
+
     function filteringTask(tasks: TaskType[]) {
         switch (tabId) {
             case 1:
                 return tasks;
             case 2:
                 const today = new Date();
-                //
                 const day = String(today.getDate()).padStart(2, '0');
-                //
-                const month = String(today.getMonth() + 1).padStart(2, '0'); // getMonth() returns 0-based month
-                //
+                const month = String(today.getMonth() + 1).padStart(2, '0');
                 const year = today.getFullYear();
-
                 const formattedDate = `${day}/${month}/${year}`;
-                return (tasks.filter(task => task.date == formattedDate));
+                return tasks.filter(task => task.date === formattedDate);
             case 3:
                 return (tasks.filter(task => task.isImportant));
             case 4:
@@ -105,7 +135,6 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
 
     return (
 
-
         <>
             <p className="total-task-count">All task ({ !(matchedTasks.length == 0) ? filteringTask(matchedTasks).length : filteringTask(tasks).length} tasks)</p>
 
@@ -113,8 +142,6 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
                 <Progress percent={completePercent} steps={10} strokeColor={green[6]} />
                 <Progress percent={uncompletePercent} steps={10} strokeColor={red[5]} status={(uncompletePercent === 100) ? "exception" : "normal"} />
             </Flex>
-
-
             <div className="task-controls">
                 {ableToDisplayRow && (<div className="task-display-controls">
                     <div className="task-display-option">
@@ -125,7 +152,6 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
                             onClick={() => handleDisplayChange("row")}
                         />
                     </div>
-
                     <div className="task-display-option">
                         <img
                             src={display === "card" ? TaskDisplayCardBlueIcon : TaskDisplayCardIcon}
@@ -134,12 +160,14 @@ const TaskContainer: React.FC<TaskContainerProps> = ({ tabId }) => {
                             onClick={() => handleDisplayChange("card")}
                         />
                     </div>
-                </div>)}
 
+                </div>)}
+              
                 <div className="task-sorting-controls">
-                    {/* Thêm các phần tử và logic cho controls sắp xếp nếu cần */}
+                    {/* Add sorting controls if needed */}
                 </div>
             </div>
+
 
             <div className="task-container">
                 <div className={display !== "row" ? "task-list" : "task-list-row"}>
