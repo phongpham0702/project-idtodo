@@ -1,3 +1,4 @@
+
 import { TaskType } from "../interfaces/TaskType";
 import api from "../components/data/api";
 
@@ -22,3 +23,4 @@ async function fetchTasks() {
 
 // Call the function to fetch tasks
 Tasks = await fetchTasks();
+
