@@ -6,10 +6,18 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginForm from "./components/login/loginForm"
 import RegisterForm from "./components/login/registerForm"
 import SideBar from "./components/sidebar/sidebar.component"
+import MainPanel from "./components/main-panel/mainpanel.component"
+import { useState } from "react";
 function App() {
+  const [selectedTabId, setSelectedTabId]= useState(1);
+
+  const handleTabClick = (newTabId:number) => {
+    setSelectedTabId(newTabId);
+  };
 
   return (
     <>
+
       <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginForm />} />
@@ -17,6 +25,7 @@ function App() {
         <Route path="/home" element={<SideBar/>} /> {/* Protected route */}
       </Routes>
     </BrowserRouter>
+
     </>
   )
 }
