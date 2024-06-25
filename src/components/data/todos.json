@@ -5,8 +5,8 @@
       "title": "Learn basic HTML/CSS/JS",
       "description": "Learn about basic concepts of HTML/CSS/JS: HTML tags, CSS selectors, JS functions",
       "date": "04/09/2021",
-      "isImportant": true,
-      "isComplete": false
+      "isImportant": false,
+      "isComplete": true
     },
     {
       "id": "2",
